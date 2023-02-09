@@ -4,4 +4,4 @@ builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.BuildAndStart(builder);
+app.BuildAndRun(builder);

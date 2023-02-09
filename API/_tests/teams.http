@@ -1,0 +1,15 @@
+﻿GET {{BaseUrl}}/Teams/Get/2
+
+###
+DELETE {{BaseUrl}}/Teams/Delete/3
+
+###
+POST {{BaseUrl}}/Teams/Save
+Content-Type: application/json
+
+{
+  "id": 0,
+  "name": "string",
+  "establishmentDate": "2023-02-09T14:31:25.580Z",
+  "stadiumName": "string"
+}

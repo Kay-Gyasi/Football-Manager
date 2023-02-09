@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using Data.Base;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Players;
 
@@ -13,7 +14,7 @@ public class PlayerConfiguration : DatabaseConfiguration<Player, int>
             .HasConversion(new EnumToStringConverter<Position>());
         builder.Property(x => x.SecondaryPosition)
             .HasConversion(new EnumToStringConverter<Position>());
-        builder.Property(x => x.Name)
+        builder.Property(x => x.JerseyName)
             .HasColumnType("varchar")
             .HasMaxLength(50);
     }

@@ -2,3 +2,12 @@
 global using Microsoft.EntityFrameworkCore;
 global using Football_Manager;
 global using Football_Manager.Extensions;
+global using Data.Teams;
+global using Football_Manager.Exceptions;
+global using Microsoft.AspNetCore.Mvc;
+global using Controller = Football_Manager.Base.Controller;
+global using Data.Players;
+global using Football_Manager.Teams;
+global using Data.Coaches;
+global using Microsoft.AspNetCore.Identity;
+global using OneOf;

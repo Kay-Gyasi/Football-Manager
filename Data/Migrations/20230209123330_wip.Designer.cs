@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230209123330_wip")]
+    partial class wip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,6 +64,9 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("JerseyName")
                         .HasMaxLength(50)
                         .HasColumnType("varchar");
@@ -79,7 +85,7 @@ namespace Data.Migrations
                     b.Property<string>("SecondaryPosition")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamId")
+                    b.Property<int>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -133,9 +139,6 @@ namespace Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -357,7 +360,7 @@ namespace Data.Migrations
                             b1.Property<DateTime>("CreatedAt")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2023, 2, 9, 15, 54, 51, 222, DateTimeKind.Utc).AddTicks(6131));
+                                .HasDefaultValue(new DateTime(2023, 2, 9, 12, 33, 30, 537, DateTimeKind.Utc).AddTicks(6664));
 
                             b1.Property<string>("CreatedBy")
                                 .IsRequired()
@@ -372,7 +375,7 @@ namespace Data.Migrations
                             b1.Property<DateTime>("UpdatedAt")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2023, 2, 9, 15, 54, 51, 222, DateTimeKind.Utc).AddTicks(8261));
+                                .HasDefaultValue(new DateTime(2023, 2, 9, 12, 33, 30, 537, DateTimeKind.Utc).AddTicks(8256));
 
                             b1.Property<string>("UpdatedBy")
                                 .IsRequired()
@@ -388,7 +391,8 @@ namespace Data.Migrations
                                 .HasForeignKey("CoachId");
                         });
 
-                    b.Navigation("Audit");
+                    b.Navigation("Audit")
+                        .IsRequired();
 
                     b.Navigation("Team");
 
@@ -399,7 +403,9 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Teams.Team", "Team")
                         .WithMany("Players")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Data.User", "User")
                         .WithMany()
@@ -415,7 +421,7 @@ namespace Data.Migrations
                             b1.Property<DateTime>("CreatedAt")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2023, 2, 9, 15, 54, 51, 272, DateTimeKind.Utc).AddTicks(7606));
+                                .HasDefaultValue(new DateTime(2023, 2, 9, 12, 33, 30, 555, DateTimeKind.Utc).AddTicks(9946));
 
                             b1.Property<string>("CreatedBy")
                                 .IsRequired()
@@ -430,7 +436,7 @@ namespace Data.Migrations
                             b1.Property<DateTime>("UpdatedAt")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2023, 2, 9, 15, 54, 51, 273, DateTimeKind.Utc).AddTicks(2596));
+                                .HasDefaultValue(new DateTime(2023, 2, 9, 12, 33, 30, 556, DateTimeKind.Utc).AddTicks(3779));
 
                             b1.Property<string>("UpdatedBy")
                                 .IsRequired()
@@ -446,7 +452,8 @@ namespace Data.Migrations
                                 .HasForeignKey("PlayerId");
                         });
 
-                    b.Navigation("Audit");
+                    b.Navigation("Audit")
+                        .IsRequired();
 
                     b.Navigation("Team");
 
@@ -463,7 +470,7 @@ namespace Data.Migrations
                             b1.Property<DateTime>("CreatedAt")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2023, 2, 9, 15, 54, 51, 295, DateTimeKind.Utc).AddTicks(9080));
+                                .HasDefaultValue(new DateTime(2023, 2, 9, 12, 33, 30, 571, DateTimeKind.Utc).AddTicks(7553));
 
                             b1.Property<string>("CreatedBy")
                                 .IsRequired()
@@ -478,7 +485,7 @@ namespace Data.Migrations
                             b1.Property<DateTime>("UpdatedAt")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2023, 2, 9, 15, 54, 51, 296, DateTimeKind.Utc).AddTicks(1209));
+                                .HasDefaultValue(new DateTime(2023, 2, 9, 12, 33, 30, 571, DateTimeKind.Utc).AddTicks(9441));
 
                             b1.Property<string>("UpdatedBy")
                                 .IsRequired()
@@ -494,7 +501,8 @@ namespace Data.Migrations
                                 .HasForeignKey("TeamId");
                         });
 
-                    b.Navigation("Audit");
+                    b.Navigation("Audit")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

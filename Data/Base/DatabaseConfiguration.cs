@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Data;
+namespace Data.Base;
 
 public class DatabaseConfiguration<TEntity, TKey> : IEntityTypeConfiguration<TEntity>
     where TEntity : Entity<TKey>
@@ -30,5 +28,6 @@ public class DatabaseConfiguration<TEntity, TKey> : IEntityTypeConfiguration<TEn
             a.Property(x => x.Status)
                 .HasConversion(new EnumToStringConverter<EntityStatus>());
         });
+        builder.HasQueryFilter(x => x.Audit.Status == EntityStatus.Normal);
     }
 }

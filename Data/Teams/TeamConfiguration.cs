@@ -1,4 +1,6 @@
-﻿namespace Data.Teams;
+﻿using Data.Base;
+
+namespace Data.Teams;
 
 public class TeamConfiguration : DatabaseConfiguration<Team, int>
 {

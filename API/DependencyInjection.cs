@@ -9,7 +9,24 @@ public static class DependencyInjection
         services.AddEndpointsApiExplorer();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddSwaggerGen();
-        services.AddPersistence(configuration);
+        services.AddPersistence(configuration)
+            .RegisterProcessors();
+        return services;
+    }
+
+    private static IServiceCollection RegisterProcessors(this IServiceCollection services)
+    {
+        var assemblyTypes = typeof(DependencyInjection).Assembly
+            .DefinedTypes;
+        var processors = assemblyTypes.Where(type => type.IsClass
+                                                     && type.CustomAttributes.Any(x
+                                                         => x.AttributeType == typeof(ProcessorAttribute)));
+        
+        foreach (var typeInfo in processors)
+        {
+            services.AddScoped(typeInfo);
+        }
+
         return services;
     }
 }

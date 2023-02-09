@@ -1,4 +1,7 @@
-﻿namespace Data;
+﻿using Data.Base;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+namespace Data;
 
 public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
@@ -16,6 +19,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
         {
             if (entry.Entity is Entity<int> entity)
             {
+                entity.Audit ??= Audit.Create();
                 entity.Audit.WasUpdatedBy("admin");
             }
         }
@@ -24,8 +28,8 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
                      .Where(x => x.State is EntityState.Deleted))
         {
             if (entry.Entity is not Entity<int> entity) continue;
-            entity.Audit.WasUpdatedBy("admin");
-            entity.Audit.Delete();
+            entity.Audit?.WasUpdatedBy("admin");
+            entity.Audit?.Delete();
         }
 
         return base.SaveChangesAsync(cancellationToken);
@@ -34,6 +38,15 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.Entity<User>()
+            .Property(x => x.Type)
+            .HasConversion(new EnumToStringConverter<UserType>());
+        builder.Entity<User>().Property(x => x.FirstName)
+            .HasColumnType("varchar")
+            .HasMaxLength(50);
+        builder.Entity<User>().Property(x => x.LastName)
+            .HasColumnType("varchar")
+            .HasMaxLength(50);
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 

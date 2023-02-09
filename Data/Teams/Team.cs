@@ -1,4 +1,6 @@
-﻿namespace Data.Teams;
+﻿using Data.Base;
+
+namespace Data.Teams;
 
 public class Team : Entity<int>
 {
@@ -30,7 +32,7 @@ public class Team : Entity<int>
         return this;
     }
 
-    public Team HasStadium(string name)
+    public Team HasStadium(string? name)
     {
         StadiumName = name;
         return this;

@@ -1,28 +1,29 @@
-﻿using Data.Teams;
+﻿using Data.Base;
+using Data.Teams;
 
 namespace Data.Players;
 
 public class Player : Entity<int>
 {
-    private Player(string name, int userId, int teamId)
+    private Player(int userId, int? teamId)
     {
         UserId = userId;
-        Name = name;
+        if (teamId is 0) teamId = null;
         TeamId = teamId;
     }
 
     public int UserId { get; private set; }
-    public int TeamId { get; private set; }
-    public string Name { get; private set; }    
-    public DateTime DateOfBirth { get; private set; }
+    public int? TeamId { get; private set; }
+    public string? JerseyName { get; private set; }
+    public int? JerseyNumber { get; private set; }
     public Position PrimaryPosition { get; private set; }
     public Position? SecondaryPosition { get; private set; }
     public Nationality Nationality { get; private set; }
-    public User User { get; private set; }
-    public Team Team { get; private set; }
+    public User? User { get; private set; }
+    public Team? Team { get; private set; }
 
-    public static Player Create(string name, int userId, int teamId)
-        => new (name, userId, teamId);
+    public static Player Create(int userId, int? teamId)
+        => new (userId, teamId);
 
     public Player HasUserId(int userId)
     {
@@ -30,25 +31,25 @@ public class Player : Entity<int>
         return this;
     }
 
-    public Player IsNamed(string name)
+    public Player HasJerseyName(string? name)
     {
-        Name = name;
+        JerseyName = name;
         return this;
     }
-
-    public Player WasBornOn(DateTime date)
+    
+    public Player HasJerseyNumber(int? number)
     {
-        DateOfBirth = date.Date;
+        JerseyNumber = number;
         return this;
     }
-
+    
     public Player HasPrimaryPosition(Position position)
     {
         PrimaryPosition = position;
         return this;
     }
 
-    public Player HasSecondaryPosition(Position position)
+    public Player HasSecondaryPosition(Position? position)
     {
         SecondaryPosition = position;
         return this;
@@ -57,6 +58,12 @@ public class Player : Entity<int>
     public Player WithNationality(Nationality nationality)
     {
         Nationality = nationality;
+        return this;
+    }
+
+    public Player ForUser(User? user)
+    {
+        User = user;
         return this;
     }
 }

@@ -1,0 +1,24 @@
+﻿GET {{BaseUrl}}/Coaches/Get/2
+
+###
+DELETE {{BaseUrl}}/Coaches/Delete/3
+
+###
+POST {{BaseUrl}}/Coaches/Save
+Content-Type: application/json
+
+{
+  "id": 0,
+  "userId": 0,
+  "teamId": 0,
+  "yearsOfExperience": 0,
+  "isMain": true,
+  "user": {
+    "userName": "string",
+    "email": "string",
+    "phoneNumber": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "password": "string"
+  }
+}

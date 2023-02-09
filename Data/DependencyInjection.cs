@@ -9,7 +9,19 @@ public static class DependencyInjection
         {
             options.UseSqlServer(configuration.GetConnectionString("Default"));
             options.EnableSensitiveDataLogging();
-        });
+        })
+            .InstallRepositories();
+        services.AddIdentityCore<User>()
+            .AddRoles<IdentityRole<int>>()
+            .AddEntityFrameworkStores<AppDbContext>();
         return services;
     }
+
+    private static IServiceCollection InstallRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<ICoachRepository, CoachRepository>()
+            .AddScoped<IPlayerRepository, PlayerRepository>()
+            .AddScoped<ITeamRepository, TeamRepository>();
+        return services;
+    } 
 }

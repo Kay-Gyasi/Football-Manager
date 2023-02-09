@@ -2,8 +2,10 @@
 
 public static class Startup
 {
-    public static void BuildAndStart(this WebApplication app, WebApplicationBuilder builder)
+    public static void BuildAndRun(this WebApplication app, WebApplicationBuilder builder)
     {
+        app.RunMigrations();
+        
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -17,8 +19,6 @@ public static class Startup
         app.MapControllers();
 
         app.Run();
-
-        app.RunMigrations();
     }
     
     private static void RunMigrations(this WebApplication app)

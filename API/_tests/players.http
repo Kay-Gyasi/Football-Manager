@@ -1,0 +1,28 @@
+﻿GET {{BaseUrl}}/Players/Get/2
+
+###
+DELETE {{BaseUrl}}/Players/Delete/3
+
+###
+POST {{BaseUrl}}/Players/Save
+Content-Type: application/json
+
+{
+  "id": 0,
+  "userId": 0,
+  "teamId": 0,
+  "jerseyName": "Kay Gyasi",
+  "jerseyNumber": 11,
+  "dateOfBirth": "2023-02-09T12:39:56.992Z",
+  "primaryPosition": 6,
+  "secondaryPosition": 7,
+  "nationality": 0,
+  "user": {
+    "userName": "string",
+    "email": "kcoman@gmail.com",
+    "phoneNumber": "0557511677",
+    "firstName": "Kingsley",
+    "lastName": "Coman",
+    "password": "pass"
+  }
+}

@@ -3,7 +3,7 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-.idea
-Data/ConnectionStrings.cs
-API/appSettings.json
-API/appSettings.Development.json
+/Data/ConnectionStrings.cs
+/API/appSettings.json
+/API/appSettings.Development.json
+/.idea
