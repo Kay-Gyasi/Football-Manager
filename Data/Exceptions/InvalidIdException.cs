@@ -1,4 +1,4 @@
-﻿namespace Football_Manager.Exceptions;
+﻿namespace Data.Exceptions;
 
 public class InvalidIdException : Exception
 {

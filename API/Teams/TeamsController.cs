@@ -18,6 +18,14 @@ public class TeamsController : Controller
         return result.IsT0 ? CreatedAtAction(nameof(Get), new { id = result.AsT0 }, result.Value)
             : BuildProblemDetails(command.Id);
     }
+    
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetPage(PaginatedCommand query)
+    {
+        return Ok(await _processor.GetPageAsync(query));
+    }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

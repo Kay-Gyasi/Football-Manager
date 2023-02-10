@@ -1,4 +1,6 @@
-﻿namespace Football_Manager.Base;
+﻿using Data.Exceptions;
+
+namespace Football_Manager.Base;
 
 [ApiController]
 [Route("api/[controller]/[action]")]

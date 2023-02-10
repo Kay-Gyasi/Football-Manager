@@ -39,6 +39,12 @@ public sealed class PlayerProcessor
         return (PlayerDto) player;
     }
 
+    public async Task<PaginatedList<PlayerPageDto>> GetPageAsync(PaginatedCommand query)
+    {
+        var paginatedList = await _playerRepository.GetPageAsync(query);
+        return PlayerPageDto.ToPageDto(paginatedList);
+    }
+
     public async Task DeleteAsync(int id)
     {
         var player = await _playerRepository.FindByIdAsync(id);

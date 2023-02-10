@@ -1,6 +1,15 @@
 ﻿GET {{BaseUrl}}/Coaches/Get/2
 
 ###
+POST {{BaseUrl}}/Coaches/GetPage
+Content-Type: application/json
+
+{
+  "pageNumber": 1,
+  "pageSize": 20
+}
+
+###
 DELETE {{BaseUrl}}/Coaches/Delete/3
 
 ###

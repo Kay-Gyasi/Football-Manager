@@ -43,4 +43,14 @@ public class UserPageDto
     public int Id { get; set; }
     public string? UserName { get; set; }
     public UserType Type { get; set; }
+    
+    public static explicit operator UserPageDto(User user)
+    {
+        return new UserPageDto
+        {
+            Id = user.Id,
+            UserName = user.UserName,
+            Type = user.Type
+        };
+    }
 }

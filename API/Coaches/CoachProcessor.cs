@@ -1,4 +1,6 @@
-﻿namespace Football_Manager.Coaches;
+﻿using Data.Exceptions;
+
+namespace Football_Manager.Coaches;
 
 [Processor]
 public class CoachProcessor
@@ -36,6 +38,12 @@ public class CoachProcessor
         var coach = await _coachRepository.FindByIdAsync(id);
         coach?.ForUser(await Task.Run(() => _userManager.Users.FirstOrDefault(x => x.Id == id)));
         return (CoachDto) coach;
+    }
+
+    public async Task<PaginatedList<CoachPageDto>> GetPageAsync(PaginatedCommand query)
+    {
+        var paginatedList = await _coachRepository.GetPageAsync(query);
+        return CoachPageDto.ToPageDto(paginatedList);
     }
 
     public async Task DeleteAsync(int id)

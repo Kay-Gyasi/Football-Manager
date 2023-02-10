@@ -65,6 +65,7 @@ public sealed class InitializationProcessor
             var players = GetPlayers(id);
             foreach (var player in players)
             {
+                player.JerseyName = player.User?.LastName;
                 await _playerProcessor.UpsertAsync(player).ConfigureAwait(false);
             }
         }
@@ -74,7 +75,7 @@ public sealed class InitializationProcessor
     {
         foreach (var id in Enumerable.Range(1, TeamSize))
         {
-            var coaches = GetCoaches(id);
+            var coaches = GetCoach(id);
             foreach (var coach in coaches)
             {
                 await _coachProcessor.UpsertAsync(coach).ConfigureAwait(false);
@@ -105,14 +106,14 @@ public sealed class InitializationProcessor
             .RuleFor(x => x.Password, f => f.Random.Words(1));
         return new Faker<PlayerCommand>()
             .Ignore(x => x.Id)
+            .Ignore(x => x.JerseyName)
             .RuleFor(x => x.TeamId, _ => teamId)
             .RuleFor(x => x.User, () => userFaker)
             .RuleFor(x => x.JerseyNumber, f => f.Random.Number(1, 26))
-            .RuleFor(x => x.JerseyName, (f, x) => x.User!.UserName)
             .Generate(26);
     }
 
-    private static IEnumerable<CoachCommand> GetCoaches(int teamId)
+    private static IEnumerable<CoachCommand> GetCoach(int teamId)
     {
         var userFaker = new Faker<UserCommand>()
             .RuleFor(x => x.FirstName, f => f.Name.FirstName())
@@ -126,6 +127,6 @@ public sealed class InitializationProcessor
             .RuleFor(x => x.TeamId, _ => teamId)
             .RuleFor(x => x.User, () => userFaker)
             .RuleFor(x => x.YearsOfExperience, f => f.Random.Number(30))
-            .Generate(TeamSize);
+            .Generate(1);
     }
 }

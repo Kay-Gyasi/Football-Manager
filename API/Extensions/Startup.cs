@@ -1,4 +1,6 @@
-﻿namespace Football_Manager.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Football_Manager.Extensions;
 
 public static class Startup
 {

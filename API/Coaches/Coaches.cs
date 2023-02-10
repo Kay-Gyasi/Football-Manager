@@ -45,4 +45,30 @@ public class CoachPageDto
     public bool IsMain { get; set; }
     public UserPageDto? User { get; set; }
     public TeamPageDto? Team { get; set; }
+    
+    public static explicit operator CoachPageDto(Coach? coach)
+    {
+        if (coach is null) return null;
+        return new()
+        {
+            Id = coach.Id,
+            UserId = coach.UserId,
+            TeamId = coach.TeamId,
+            YearsOfExperience = coach.YearsOfExperience,
+            IsMain = coach.IsMain,
+            User = (UserPageDto) coach.User,
+            Team = (TeamPageDto) coach.Team
+        };
+    }
+    
+    public static PaginatedList<CoachPageDto> ToPageDto(PaginatedList<Coach> paginated)
+    {
+        var pageDto = new List<CoachPageDto>();
+        foreach (var player in paginated.Data)
+        {
+            pageDto.Add((CoachPageDto) player);
+        }
+        
+        return new PaginatedList<CoachPageDto>(pageDto, paginated.TotalCount, paginated.CurrentPage, paginated.PageSize);
+    }
 }

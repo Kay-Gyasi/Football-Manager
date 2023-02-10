@@ -39,6 +39,12 @@ public sealed class TeamProcessor
     {
         return (TeamDto) await _teamRepository.FindByIdAsync(id);
     }
+    
+    public async Task<PaginatedList<TeamPageDto>> GetPageAsync(PaginatedCommand query)
+    {
+        var paginatedList = await _teamRepository.GetPageAsync(query);
+        return TeamPageDto.ToPageDto(paginatedList);
+    }
 
     public async Task DeleteAsync(int id)
     {

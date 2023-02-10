@@ -1,4 +1,6 @@
-﻿namespace Football_Manager.Extensions;
+﻿using Data.Exceptions;
+
+namespace Football_Manager.Extensions;
 
 public static class Exceptions
 {

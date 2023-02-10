@@ -1,4 +1,6 @@
-﻿namespace Football_Manager.Players;
+﻿using Data.Helpers;
+
+namespace Football_Manager.Players;
 
 public class PlayerCommand
 {
@@ -54,4 +56,30 @@ public class PlayerPageDto
     public Nationality Nationality { get; set; }
     public UserPageDto User { get; set; } // pick only info needed
     public TeamPageDto Team { get; set; }
+    
+    public static explicit operator PlayerPageDto(Player? player)
+    {
+        if (player is null) return default!;
+        return new PlayerPageDto
+        {
+            Id = player.Id,
+            JerseyName = player.JerseyName,
+            JerseyNumber = player.JerseyNumber,
+            PrimaryPosition = player.PrimaryPosition,
+            Nationality = player.Nationality,
+            User = (UserPageDto) player.User,
+            Team = (TeamPageDto) player.Team
+        };
+    }
+
+    public static PaginatedList<PlayerPageDto> ToPageDto(PaginatedList<Player> paginated)
+    {
+        var pageDto = new List<PlayerPageDto>();
+        foreach (var player in paginated.Data)
+        {
+            pageDto.Add((PlayerPageDto) player);
+        }
+        
+        return new PaginatedList<PlayerPageDto>(pageDto, paginated.TotalCount, paginated.CurrentPage, paginated.PageSize);
+    }
 }

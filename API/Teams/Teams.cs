@@ -42,4 +42,27 @@ public class TeamPageDto
     public string Name { get; set; }
     public DateTime EstablishmentDate { get; set; }
     public string? StadiumName { get; set; }
+    
+    public static explicit operator TeamPageDto(Team? team)
+    {
+        if (team is null) return null;
+        return new TeamPageDto
+        {
+            Id = team.Id,
+            Name = team.Name,
+            StadiumName = team.StadiumName,
+            EstablishmentDate = team.EstablishmentDate
+        };
+    }
+    
+    public static PaginatedList<TeamPageDto> ToPageDto(PaginatedList<Team> paginated)
+    {
+        var pageDto = new List<TeamPageDto>();
+        foreach (var player in paginated.Data)
+        {
+            pageDto.Add((TeamPageDto) player);
+        }
+        
+        return new PaginatedList<TeamPageDto>(pageDto, paginated.TotalCount, paginated.CurrentPage, paginated.PageSize);
+    }
 }

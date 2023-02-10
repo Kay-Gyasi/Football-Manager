@@ -1,6 +1,15 @@
 ﻿GET {{BaseUrl}}/Players/Get/2
 
 ###
+POST {{BaseUrl}}/Players/GetPage
+Content-Type: application/json
+
+{
+  "pageNumber": 1,
+  "pageSize": 20
+}
+
+###
 DELETE {{BaseUrl}}/Players/Delete/3
 
 ###

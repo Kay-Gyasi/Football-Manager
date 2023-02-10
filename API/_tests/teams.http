@@ -1,6 +1,15 @@
 ﻿GET {{BaseUrl}}/Teams/Get/2
 
 ###
+POST {{BaseUrl}}/Teams/GetPage
+Content-Type: application/json
+
+{
+  "pageNumber": 1,
+  "pageSize": 20
+}
+
+###
 DELETE {{BaseUrl}}/Teams/Delete/3
 
 ###
