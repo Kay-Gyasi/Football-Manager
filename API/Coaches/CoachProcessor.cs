@@ -70,7 +70,8 @@ public class CoachProcessor
                 return new InvalidDataException("Error while creating user");
             }
 
-            await _userManager.AddPasswordAsync(user, command.User?.Password ?? "");
+            var password = _userManager.PasswordHasher.HashPassword(user, command.User?.Password ?? "");
+            await _userManager.AddPasswordAsync(user, password);
             await _userManager.AddToRoleAsync(user, UserType.Coach.ToString());
             
             var coach = Coach.Create(user.Id);

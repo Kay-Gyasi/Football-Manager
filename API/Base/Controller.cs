@@ -15,3 +15,17 @@ public class Controller : ControllerBase
         return Problem(title: ex.Message, statusCode: ex.GetStatusCode());
     }
 }
+
+public static class Exceptions
+{
+    public static int GetStatusCode(this Exception ex)
+    {
+        return ex switch
+        {
+            InvalidIdException => StatusCodes.Status404NotFound,
+            InvalidDataException => StatusCodes.Status400BadRequest,
+            InvalidLoginException => StatusCodes.Status400BadRequest,
+            _ => StatusCodes.Status400BadRequest
+        };
+    }
+}

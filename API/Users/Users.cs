@@ -1,4 +1,4 @@
-﻿namespace Football_Manager;
+﻿namespace Football_Manager.Users;
 
 public class UserCommand
 {

@@ -61,16 +61,16 @@ public sealed class PlayerProcessor
                 .WithEmail(command.User?.Email)
                 .WithPhone(command.User?.PhoneNumber)
                 .WasBornOn(command.User?.DateOfBirth);
-            var result = await _userManager.CreateAsync(user);
+            
+            var result = await _userManager.CreateAsync(user, command.User?.Password ?? "");
             if (result.Errors.Any())
             {
                 _logger.LogError("{Errors}", result.Errors.ToString());
                 return new InvalidDataException();
             }
 
-            var password = _userManager.PasswordHasher.HashPassword(user, command.User.Password ?? "");
-            await _userManager.AddPasswordAsync(user, password);
             await _userManager.AddToRoleAsync(user, UserType.Player.ToString());
+            
             var player = Player.Create(user.Id, command.TeamId);
             AssignFields(command, player);
             await _playerRepository.AddAsync(player, true);

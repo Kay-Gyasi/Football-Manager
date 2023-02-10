@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using Football_Manager.Coaches;
 using Football_Manager.Players;
+using Football_Manager.Users;
 
 namespace Football_Manager.Initialization;
 
@@ -103,7 +104,7 @@ public sealed class InitializationProcessor
             .RuleFor(x => x.Email, f => f.Internet.Email())
             .RuleFor(x => x.DateOfBirth, f => f.Date.Past(17))
             .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber())
-            .RuleFor(x => x.Password, f => f.Random.Words(1));
+            .RuleFor(x => x.Password, _ => "Kaygyasi534$trey");
         return new Faker<PlayerCommand>()
             .Ignore(x => x.Id)
             .Ignore(x => x.JerseyName)
@@ -121,7 +122,7 @@ public sealed class InitializationProcessor
             .RuleFor(x => x.Email, f => f.Internet.Email())
             .RuleFor(x => x.DateOfBirth, f => f.Date.Past(17))
             .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber())
-            .RuleFor(x => x.Password, f => f.Random.Words(1));
+            .RuleFor(x => x.Password, _ => "Kaygyasi534$trey");
         return new Faker<CoachCommand>()
             .Ignore(x => x.Id)
             .RuleFor(x => x.TeamId, _ => teamId)

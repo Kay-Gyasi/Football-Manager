@@ -1,0 +1,7 @@
+POST {{BaseUrl}}/Users/Login
+Content-Type: application/json
+
+{
+  "email": "kcoman@gmail.com",
+  "password": "Kaygyasi534$trey"
+}

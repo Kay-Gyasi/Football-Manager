@@ -1,4 +1,7 @@
-﻿namespace Football_Manager;
+﻿using Football_Manager.Authentication;
+using Football_Manager.Users;
+
+namespace Football_Manager;
 
 public static class DependencyInjection
 {
@@ -10,7 +13,8 @@ public static class DependencyInjection
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddSwaggerGen();
         services.AddPersistence(configuration)
-            .RegisterProcessors();
+            .RegisterProcessors()
+            .AddAuthenticationService(configuration);
         return services;
     }
 

@@ -1,4 +1,6 @@
-﻿namespace Football_Manager.Coaches;
+﻿using Football_Manager.Users;
+
+namespace Football_Manager.Coaches;
 
 public class CoachCommand
 {
