@@ -35,9 +35,7 @@ public class CoachProcessor
     
     public async Task<CoachDto?> GetAsync(int id)
     {
-        var coach = await _coachRepository.FindByIdAsync(id);
-        coach?.ForUser(await Task.Run(() => _userManager.Users.FirstOrDefault(x => x.Id == id)));
-        return (CoachDto) coach;
+        return (CoachDto) await _coachRepository.FindByIdAsync(id);
     }
 
     public async Task<PaginatedList<CoachPageDto>> GetPageAsync(PaginatedCommand query)

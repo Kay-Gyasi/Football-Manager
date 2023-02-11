@@ -22,8 +22,9 @@ public class UserDto
     public string? PhoneNumber { get; set; }
     public UserType Type { get; set; }
 
-    public static explicit operator UserDto(User user)
+    public static explicit operator UserDto(User? user)
     {
+        if (user is null) return null;
         return new UserDto
         {
             Id = user.Id,

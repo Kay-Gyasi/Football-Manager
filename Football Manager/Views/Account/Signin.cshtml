@@ -1,0 +1,48 @@
+﻿@model SigninCommand
+
+@{
+    ViewData["Title"] = "Sign in";
+}
+
+<div class="row p-0 m-0 h-100">
+    <div class="col-5 pt-4 d-none d-lg-grid p-0 bg-secondary">
+        <img id="loginImage" src="https://cdn.pixabay.com/photo/2013/07/13/12/40/boy-160105__480.png"
+             alt="Some image" class="p-3"/>
+    </div>
+    <div class="col-12 col-lg-7">
+        <h2 class="text-center mt-5 mb-5">Sign in</h2>
+
+        <form asp-controller="Account" asp-action="Send" method="post" class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-10 m-auto">
+                    <input asp-for="Email" placeholder="Email address" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <div class="col-md-10 m-auto">
+                    <input asp-for="Password" placeholder="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 m-auto">
+                    <input type="submit" value="Continue" class="btn btn-primary w-100" style="height: 8vh;" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

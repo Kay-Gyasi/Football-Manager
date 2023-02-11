@@ -34,9 +34,7 @@ public sealed class PlayerProcessor
 
     public async Task<PlayerDto?> GetAsync(int id)
     {
-        var player = await _playerRepository.FindByIdAsync(id);
-        player?.ForUser(await Task.Run(() => _userManager.Users.FirstOrDefault(x => x.Id == id)));
-        return (PlayerDto) player;
+        return (PlayerDto) await _playerRepository.FindByIdAsync(id);
     }
 
     public async Task<PaginatedList<PlayerPageDto>> GetPageAsync(PaginatedCommand query)

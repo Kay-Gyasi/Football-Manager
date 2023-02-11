@@ -1,5 +1,4 @@
 ﻿using Football_Manager.Authentication;
-using Football_Manager.Users;
 
 namespace Football_Manager;
 
@@ -8,7 +7,11 @@ public static class DependencyInjection
     public static IServiceCollection RegisterServices(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddControllers();
+        services.AddControllers()
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
         services.AddEndpointsApiExplorer();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddSwaggerGen();
