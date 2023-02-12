@@ -1,7 +1,23 @@
+using Football_Manager.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient("default", options =>
+{
+    options.BaseAddress = new Uri(Routes.ApiBase);
+});
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(opts =>
+    {
+        opts.Cookie.Name = Authentication.AuthToken;
+        opts.Cookie.HttpOnly = true;
+        opts.Cookie.SameSite = SameSiteMode.None;
+        opts.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        opts.LoginPath = Routes.LoginPage;
+    });
 
 var app = builder.Build();
 
@@ -18,6 +34,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

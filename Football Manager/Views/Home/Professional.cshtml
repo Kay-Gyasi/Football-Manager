@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Profession Info";
 }
 
 <partial name="_LayoutHeader"/>
@@ -12,17 +12,18 @@
         <div class="col-8">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" asp-controller="Home" 
+                    <a class="nav-link" aria-current="page" asp-controller="Home" 
                        asp-action="Index">Personal</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Home"
-                       asp-action="Professional">Professional</a>
+                    <a class="nav-link active" asp-controller="Home" 
+                        asp-action="Professional">Professional</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Team</a>
                 </li>
             </ul>
+
             <div class="card">
                 <div class="card-body">
                     <div class="row">

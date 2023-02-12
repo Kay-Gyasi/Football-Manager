@@ -1,6 +1,6 @@
 ﻿namespace Football_Manager.Models;
 
-public class SigninCommand
+public class SigninRequest
 {
     [Required]
     public string Email { get; set; } = null!;

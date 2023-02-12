@@ -1,43 +1,57 @@
-﻿@model SigninCommand
+﻿@model SigninRequest
 
 @{
     ViewData["Title"] = "Sign in";
 }
 
-<div class="row p-0 m-0 h-100">
-    <div class="col-5 pt-4 d-none d-lg-grid p-0 bg-secondary">
+<div class="row p-0 m-0">
+    <div class="col-6 pt-4 d-none d-lg-grid p-0 bg-secondary">
         <img id="loginImage" src="https://cdn.pixabay.com/photo/2013/07/13/12/40/boy-160105__480.png"
              alt="Some image" class="p-3"/>
     </div>
-    <div class="col-12 col-lg-7">
-        <h2 class="text-center mt-5 mb-5">Sign in</h2>
+    <div class="col-12 col-lg-6">
+        <div class="row mt-5">
+            <h2 class="text-center mt-5">Sign in to Football Manager</h2>
+        </div>
 
-        <form asp-controller="Account" asp-action="Send" method="post" class="form-horizontal">
-            <div class="form-group">
-                <div class="col-md-10 m-auto">
-                    <input asp-for="Email" placeholder="Email address" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+        <div class="row mt-5 mb-5">
+            <form asp-controller="Account" asp-action="Send" method="post" class="form-horizontal mb-5">
+                <div class="form-group mt-3">
+                    <div class="col-md-10 m-auto">
+                        <input asp-for="Email" placeholder="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
 
-            <br />
+                <br />
 
-            <div class="form-group">
-                <div class="col-md-10 m-auto">
-                    <input asp-for="Password" placeholder="Password" type="password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                <div class="form-group">
+                    <div class="col-md-10 m-auto">
+                        <input asp-for="Password" placeholder="Password" type="password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="row">
+                            <a asp-controller="Account" asp-action="Signin" class="text-end">Forgot Password?</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <br />
+                <br />
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10 m-auto">
-                    <input type="submit" value="Continue" class="btn btn-primary w-100" style="height: 8vh;" />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 m-auto">
+                        <input type="submit" value="Continue" class="btn btn-success w-100" style="height: 8vh;" />
+                    </div>
+                    <br />
+                    <div class="row">
+                        <a href="#" class="text-center">Not registered? Sign up here</a>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
 
+        <div class="col-12 position-fixed" style="bottom:0;">
+            <partial name="_LayoutFooter" />
+        </div>
     </div>
 </div>
 

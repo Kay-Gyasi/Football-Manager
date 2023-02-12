@@ -1,0 +1,18 @@
+﻿<div class="card w-100">
+    <img src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-972635212.jpg"
+    class="card-img-top" alt="GOAT">
+    <div class="card-body">
+        <h5 class="card-title"><b>Kofi Gyasi</b></h5>
+        <p class="card-text">@User.FindFirst("role")?.Value of Chelsea FC</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Team: <i>Chelsea FC</i></li>
+        @if (@User.FindFirst("role")?.Value == "Player")
+        {
+            <li class="list-group-item">Position: <i>Goalkeeper</i></li>
+        }
+        <li class="list-group-item">Phone: <i>0557833216</i></li>
+        <li class="list-group-item">Email: <i>kofigyasidev@gmail.com</i></li>
+    </ul>
+</div>
+
