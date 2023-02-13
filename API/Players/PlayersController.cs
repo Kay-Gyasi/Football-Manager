@@ -39,6 +39,16 @@ public class PlayersController : Controller
         var dto = await _processor.GetAsync(id);
         return dto is null ? NoContent() : Ok(dto);
     }
+    
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetByType(int id)
+    {
+        var dto = await _processor.GetByType(id);
+        return dto is null ? NoContent() : Ok(dto);
+    }
 
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

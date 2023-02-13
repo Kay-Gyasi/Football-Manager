@@ -1,99 +1,289 @@
-﻿@{
+﻿@model UserModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <partial name="_LayoutHeader"/>
 
 <div class="container mt-3 mb-5">
-    <div class="row">
-        <div class="col-10 m-auto col-lg-4">
-            <partial name="_ProfileSideView" />
-        </div>
-        <div class="col-8">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" asp-controller="Home" 
-                       asp-action="Index">Personal</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Home"
-                       asp-action="Professional">Professional</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Team</a>
-                </li>
-            </ul>
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            Username:
-                                        </div>
-                                        <div class="col-8">
-                                            <b>Exdoe</b>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col-4">
-                                            Firstname:
-                                        </div>
-                                        <div class="col-8">
-                                            <b>Kofi</b>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col-4">
-                                            Lastname:
-                                        </div>
-                                        <div class="col-8">
-                                            <b>Gyasi</b>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-10 mt-0 m-auto col-lg-4">
+                    <partial name="_ProfileSideView" />
+                </div>
+                <div class="col-8">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" asp-controller="Home"
+                               asp-action="Index">View Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home"
+                               asp-action="EditProfile">Edit Info</a>
+                        </li>
+                    </ul>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="card-title"><strong>Personal</strong></div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            @if (Model.Player is null)
+                                            {
+                                                <div class="row">
+
+                                                    <div class="col-4">
+                                                        Username:
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <b>@Model.Coach?.User?.UserName</b>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-4">
+                                                        Firstname:
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <b>@Model.Coach?.User?.FirstName</b>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-4">
+                                                        Lastname:
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <b>@Model.Coach?.User?.LastName</b>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="row">
+
+                                                    <div class="col-4">
+                                                        Username:
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <b>@Model.Player?.User?.UserName</b>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-4">
+                                                        Firstname:
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <b>@Model.Player?.User?.FirstName</b>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-4">
+                                                        Lastname:
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <b>@Model.Player?.User?.LastName</b>
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            Email:
-                                        </div>
-                                        <div class="col-8">
-                                            <b>kofigyasidev@gmail.com</b>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col-4">
-                                            Phone number:
-                                        </div>
-                                        <div class="col-8">
-                                            <b>0557833216</b>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col-4">
-                                            Date of birth:
-                                        </div>
-                                        <div class="col-8">
-                                            <b>19/04/1967</b>
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    Email:
+                                                </div>
+                                                <div class="col-8">
+                                                    <b>kofigyasidev@gmail.com</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-4">
+                                                    Phone number:
+                                                </div>
+                                                <div class="col-8">
+                                                    <b>0557833216</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-4">
+                                                    Date of birth:
+                                                </div>
+                                                <div class="col-8">
+                                                    <b>19/04/1967</b>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="btn btn-primary mt-3">Edit info</a>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="card-title"><strong>Professional</strong></div>
+                            <div class="row">
+                                @if (User.FindFirst("role")?.Value == "Coach")
+                                {
+                                    <div class="col-10">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        Years of experience:
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <b>13</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="col-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                @if(Model.Coach is null)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            Nationality:
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <b>@Model.Player?.Nationality.ToString()</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-6">
+                                                            Primary Position:
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <b>@Model.Player?.PrimaryPosition.ToString()</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-6">
+                                                            Secondary Position:
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <b>@Model.Player?.SecondaryPosition.ToString()</b>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                @if(Model.Coach is null)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            Jersey Name:
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <b>@Model.Player?.JerseyName</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-6">
+                                                            Squad number:
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <b>@Model.Player?.JerseyNumber</b>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title"><strong>Team</strong></div>
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        @if(Model.Coach is null)
+                                        {
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    Name:
+                                                </div>
+                                                <div class="col-6">
+                                                    <b>@Model.Player?.Team?.Name</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-6">
+                                                    Stadium Name:
+                                                </div>
+                                                <div class="col-6">
+                                                    <b>@Model.Player?.Team?.StadiumName</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-6">
+                                                    Date Established:
+                                                </div>
+                                                <div class="col-6">
+                                                    <b>@Model.Player?.Team?.EstablishmentDate.ToShortDateString()</b>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        else
+                                        {
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    Name:
+                                                </div>
+                                                <div class="col-6">
+                                                    <b>@Model.Coach?.Team?.Name</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-6">
+                                                    Stadium Name:
+                                                </div>
+                                                <div class="col-6">
+                                                    <b>@Model.Coach?.Team?.StadiumName</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-6">
+                                                    Date Established:
+                                                </div>
+                                                <div class="col-6">
+                                                    <b>@Model.Coach?.Team?.EstablishmentDate.ToShortDateString()</b>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a asp-controller="Home" asp-action="EditProfile" class="btn btn-primary mt-3 w-100">Edit info</a>
                 </div>
+
             </div>
         </div>
     </div>
-</div>
-
-<div class="row position-relative mb-0">
-    <partial name="_LayoutFooter" />
-</div>
+    </div>
+<partial name="_LayoutFooter" />

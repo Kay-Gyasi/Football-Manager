@@ -1,0 +1,76 @@
+﻿@model PlayerCommand
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<partial name="_LayoutHeader" />
+
+<div class="container mt-3 mb-5">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-10 mt-0 m-auto col-lg-4">
+                    <partial name="_ProfileSideView" />
+                </div>
+                <div class="col-8">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" asp-controller="Home"
+                               asp-action="Index">View Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-controller="Home"
+                               asp-action="EditProfile">Edit Info</a>
+                        </li>
+                    </ul>
+                    
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <form method="post" asp-controller="Home" asp-action="SaveProfileChanges">
+                                <div class="row g-3">
+                                    <div class="col">
+                                        <input asp-for="User.FirstName" placeholder="First name" class="form-control" />
+                                        <span asp-validation-for="User.FirstName" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <input asp-for="User.LastName" placeholder="Last name" class="form-control" />
+                                        <span asp-validation-for="User.LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3 mt-3">
+                                    <div class="col">
+                                        <input asp-for="User.UserName" placeholder="User name" class="form-control" />
+                                        <span asp-validation-for="User.UserName" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <input asp-for="User.PhoneNumber" placeholder="Phone" class="form-control" />
+                                        <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3 mt-3">
+                                    <div class="col">
+                                        <input asp-for="User.Email" placeholder="Email" class="form-control" />
+                                        <span asp-validation-for="User.Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <input asp-for="User.DateOfBirth" type="date" placeholder="Date of birth" class="form-control" />
+                                        <span asp-validation-for="User.DateOfBirth" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-3">
+                                    <input type="submit" class="btn btn-primary" value="Save Changes" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_LayoutFooter" />

@@ -7,6 +7,11 @@ public class PlayerRepository : Repository<Player, int>, IPlayerRepository
     {
     }
 
+    public async Task<Player?> GetByTypeId(int id)
+    {
+        return await GetBaseQuery().FirstOrDefaultAsync(x => x.UserId == id);
+    }
+
     protected override IQueryable<Player> GetBaseQuery()
     {
         return base.GetBaseQuery()
@@ -15,4 +20,7 @@ public class PlayerRepository : Repository<Player, int>, IPlayerRepository
     }
 }
 
-public interface IPlayerRepository : IRepository<Player, int> {}
+public interface IPlayerRepository : IRepository<Player, int>
+{
+    Task<Player?> GetByTypeId(int id);
+}

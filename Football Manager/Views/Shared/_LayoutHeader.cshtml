@@ -26,7 +26,7 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <span class="me-2">Hi, @User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value</span>
+                    <span class="me-2">Hi, @User.FindFirst(JwtRegisteredClaimNames.GivenName)?.Value</span>
                 </div>
             </div>
         </div>

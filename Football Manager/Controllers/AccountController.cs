@@ -21,16 +21,8 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Send(SigninRequest command)
     {
-        using var client = _factory.CreateClient("default");
-        var request = await client.PostAsJsonAsync("users/login", command);
-
-        if (!request.IsSuccessStatusCode)
-        {
-            _logger.LogError("Error occurred while logging in");
-            return RedirectToAction("Signin");
-        }
-
-        var response = await request.Content.ReadFromJsonAsync<SigninResponse>();
+        var response = await GetLoginResponseAsync(command);
+        if (response is null) return RedirectToAction("Signin");
 
         var tokenHandler = new JwtSecurityTokenHandler();
         if (tokenHandler.ReadToken(response?.Token) is not JwtSecurityToken jwt)
@@ -49,6 +41,16 @@ public class AccountController : Controller
         });
         
         return RedirectToAction("Index", "Home");
+    }
+
+    private async Task<SigninResponse?> GetLoginResponseAsync(SigninRequest command)
+    {
+        using var client = _factory.CreateClient("default");
+        var request = await client.PostAsJsonAsync("users/login", command);
+
+        if (request.IsSuccessStatusCode) return await request.Content.ReadFromJsonAsync<SigninResponse>();
+        _logger.LogError("Error occurred while logging in");
+        return null;
     }
 }
 

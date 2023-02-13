@@ -6,6 +6,11 @@ public class CoachRepository : Repository<Coach, int>, ICoachRepository
         : base(context, logger)
     {
     }
+    
+    public async Task<Coach?> GetByTypeId(int id)
+    {
+        return await GetBaseQuery().FirstOrDefaultAsync(x => x.UserId == id);
+    }
 
     protected override IQueryable<Coach> GetBaseQuery()
     {
@@ -15,4 +20,7 @@ public class CoachRepository : Repository<Coach, int>, ICoachRepository
     }
 }
 
-public interface ICoachRepository : IRepository<Coach, int> {}
+public interface ICoachRepository : IRepository<Coach, int>
+{
+    Task<Coach?> GetByTypeId(int id);
+}

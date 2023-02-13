@@ -37,6 +37,11 @@ public class CoachProcessor
     {
         return (CoachDto) await _coachRepository.FindByIdAsync(id);
     }
+    
+    public async Task<CoachDto?> GetByType(int typeId)
+    {
+        return (CoachDto) await _coachRepository.GetByTypeId(typeId);
+    }
 
     public async Task<PaginatedList<CoachPageDto>> GetPageAsync(PaginatedCommand query)
     {
