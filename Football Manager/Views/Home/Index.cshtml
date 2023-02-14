@@ -10,10 +10,56 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-10 mt-0 m-auto col-lg-4">
-                    <partial name="_ProfileSideView" />
+                <div class="col-12 mt-0 m-auto col-lg-4">
+
+                    <!-- Begin::Side view -->
+                    <div class="card w-100">
+                        @if (Model.Player is not null)
+                        {
+                            <img src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-972635212.jpg"/>
+                        }
+                        else
+                        {
+                            <img src="https://cdn.pixabay.com/photo/2018/12/16/16/39/sport-3878835__340.jpg" />
+                        }
+                        <div class="card-img-top" alt="GOAT">
+                            @if (Model.Coach is null)
+                            {
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <b>
+                                            @Model.Player?.User?.FirstName
+                                            @Model.Player?.User?.LastName
+                                        </b>
+                                    </h5>
+                                    <p class="card-text">Player of @Model.Player?.Team?.Name</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Phone: <i>@Model.Player?.User?.PhoneNumber</i></li>
+                                    <li class="list-group-item">Email: <i>@Model.Player?.User?.Email</i></li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <b>
+                                            @Model.Coach?.User?.FirstName
+                                            @Model.Coach?.User?.LastName
+                                        </b>
+                                    </h5>
+                                    <p class="card-text">Coach of @Model.Coach?.Team?.Name</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Phone: <i>@Model.Coach?.User?.PhoneNumber</i></li>
+                                    <li class="list-group-item">Email: <i>@Model.Coach?.User?.Email</i></li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <!-- End::Side view -->
                 </div>
-                <div class="col-8">
+                <div class="col-12 col-lg-8 mt-5 mt-lg-0">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" asp-controller="Home"
@@ -25,12 +71,9 @@
                                 <a class="nav-link" asp-controller="Home"
                                    asp-action="EditPlayer">Edit Info</a>
                             </li>
-                        }
-                        else if(User.FindFirst("role")?.Value == "Coach")
-                        {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Home"
-                                   asp-action="EditCoach">Edit Info</a>
+                                <a class="nav-link" aria-current="page" asp-controller="Home"
+                                   asp-action="CreatePlayer">Add Player</a>
                             </li>
                         }
                     </ul>
@@ -38,7 +81,7 @@
                         <div class="card-body">
                             <div class="card-title"><strong>Personal</strong></div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12 col-lg-6">
                                     <div class="card">
                                         <div class="card-body">
                                             @if (Model.Player is null)
@@ -100,7 +143,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-12 col-lg-6 mt-3 mt-lg-0">
                                     <div class="card">
                                         <div class="card-body">
                                             @if(Model.Player is null)
@@ -170,7 +213,7 @@
                             <div class="row">
                                 @if (User.FindFirst("role")?.Value == "Coach")
                                 {
-                                    <div class="col-10">
+                                    <div class="col-12">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
@@ -188,7 +231,7 @@
                                 }
                                 else
                                 {
-                                    <div class="col-6">
+                                    <div class="col-12 col-lg-6">
                                         <div class="card">
                                             <div class="card-body">
                                                 @if(Model.Coach is null)
@@ -225,7 +268,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-12 col-lg-6 mt-3 mt-lg-0">
                                         <div class="card">
                                             <div class="card-body">
                                                 @if(Model.Coach is null)
@@ -259,7 +302,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title"><strong>Team</strong></div>
-                            <div class="col-6">
+                            <div class="col-12 col-lg-6">
                                 <div class="card">
                                     <div class="card-body">
                                         @if(Model.Coach is null)

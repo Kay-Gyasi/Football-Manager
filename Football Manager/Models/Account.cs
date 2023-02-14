@@ -18,18 +18,22 @@ public class UserCommand
     public string? UserName { get; set; }
 
     [DisplayName("Email Address")]
+    [Required]
     public string? Email { get; set; }
 
     [DisplayName("Phone Number")]
+    [Required]
     public string? PhoneNumber { get; set; }
 
     [DisplayName("First Name")]
+    [Required]
     public string FirstName { get; set; }
 
     [DisplayName("Date of Birth")]
     public DateTime? DateOfBirth { get; set; }
 
     [DisplayName("Last Name")]
+    [Required]
     public string LastName { get; set; }
     public string? Password { get; set; }
 

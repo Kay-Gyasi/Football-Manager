@@ -14,8 +14,4 @@ public class UserCommandModel
     public List<Lookup>? Teams { get; set; }
 }
 
-public class Lookup
-{
-    public int Id { get; set; }
-    public int Name { get; set; }
-}
+public record Lookup(int Id, string Name);

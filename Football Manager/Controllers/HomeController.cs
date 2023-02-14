@@ -7,8 +7,6 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IHttpClientFactory _factory;
-    private PlayerDto? _player;
-    private CoachDto? _coach;
     private string UserId => User?.FindFirst(JwtRegisteredClaimNames.NameId)?.Value ?? "";
     private string Role => User?.FindFirst("role")?.Value ?? "";
 
@@ -28,39 +26,58 @@ public class HomeController : Controller
                 .GetAsync($"coaches/getByType/{UserId}");
             if (!request.IsSuccessStatusCode) return View();
 
-            _coach = await request.Content.ReadFromJsonAsync<CoachDto>();
-            return View(new UserModel{Coach = _coach});
+            var coach = await request.Content.ReadFromJsonAsync<CoachDto>();
+            return View(new UserModel{Coach = coach});
         }
 
         request = await client
             .GetAsync($"players/getByType/{UserId}");
         if (!request.IsSuccessStatusCode) return View();
 
-        _player = await request.Content.ReadFromJsonAsync<PlayerDto>();
-        return View(new UserModel{Player = _player});
+        var player = await request.Content.ReadFromJsonAsync<PlayerDto>();
+        return View(new UserModel{Player = player});
     }
 
     public async Task<IActionResult> EditPlayer()
     {
         using var client = _factory.CreateClient("default");
-        var request = await client.GetAsync($"players/getByType/{UserId}");
-        if (!request.IsSuccessStatusCode) return View(new UserCommandModel{Player = (PlayerCommand)_player});
+        var requestTask = client.GetAsync($"players/getByType/{UserId}");
+        var teamsRequestTask = client.GetAsync("Teams/GetLookup");
 
-        _player = await request.Content.ReadFromJsonAsync<PlayerDto>();
-        return View(new UserCommandModel{Player = (PlayerCommand)_player});
+        await Task.WhenAll(requestTask, teamsRequestTask);
+
+        var request = await requestTask;
+        var teamsRequest = await teamsRequestTask;
+        if (!request.IsSuccessStatusCode) return View();
+
+        var player = await request.Content.ReadFromJsonAsync<PlayerDto>();
+        if(!teamsRequest.IsSuccessStatusCode)
+            return View(new UserCommandModel{Player = (PlayerCommand) player});
+        
+        return View(new UserCommandModel
+        {
+            Player = (PlayerCommand) player,
+            Teams = await teamsRequest.Content.ReadFromJsonAsync<List<Lookup>>()
+        });
     }
     
-    public async Task<IActionResult> EditCoach()
+    public async Task<IActionResult> CreatePlayer()
     {
         using var client = _factory.CreateClient("default");
-        var request = await client.GetAsync($"coaches/getByType/{UserId}");
-        if (!request.IsSuccessStatusCode) return View((CoachCommand)_coach);
+        var request = await client.GetAsync("Teams/GetLookup");
+        
+        if (!request.IsSuccessStatusCode) return View();
 
-        _coach = await request.Content.ReadFromJsonAsync<CoachDto>();
-        return View((CoachCommand)_coach);
+        if(!request.IsSuccessStatusCode)
+            return View();
+        
+        return View(new UserCommandModel
+        {
+            Teams = await request.Content.ReadFromJsonAsync<List<Lookup>>()
+        });
     }
     
-    // TODO:: Work on teams lookup
+    // TODO:: Create admin role and authorizations
     public async Task<IActionResult> SaveProfileChanges(UserCommandModel command)
     {
         using var client = _factory.CreateClient("default");

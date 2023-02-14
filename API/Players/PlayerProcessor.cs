@@ -28,6 +28,18 @@ public sealed class PlayerProcessor
         var player = await _playerRepository.FindByIdAsync(command.Id ?? 0);
         if (player is null) return new InvalidIdException();
         AssignFields(command, player);
+        var user = await _userManager.FindByIdAsync(command.UserId.ToString());
+        if (user is not null)
+        {
+            user.HasFirstName(command.User?.FirstName ?? "")
+                .HasLastName(command.User?.LastName ?? "")
+                .WithEmail(command.User?.Email)
+                .WithPhone(command.User?.PhoneNumber)
+                .HasUserName(command.User?.UserName ?? "");
+            var emailChanged = await _userManager.SetEmailAsync(user, command.User?.Email ?? "");
+            if(emailChanged.Succeeded) 
+                await _userManager.UpdateAsync(user);
+        }
         await _playerRepository.UpdateAsync(player, true);
         return player.Id;
     }
@@ -65,7 +77,7 @@ public sealed class PlayerProcessor
                 .WithPhone(command.User?.PhoneNumber)
                 .WasBornOn(command.User?.DateOfBirth);
             
-            var result = await _userManager.CreateAsync(user, command.User?.Password ?? "");
+            var result = await _userManager.CreateAsync(user, command.User?.Password ?? "Kaygyasi534$trey");
             if (result.Errors.Any())
             {
                 _logger.LogError("{Errors}", result.Errors.ToString());

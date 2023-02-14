@@ -1,4 +1,6 @@
-﻿namespace Football_Manager.Teams;
+﻿using Data.Lookup;
+
+namespace Football_Manager.Teams;
 
 [Processor]
 public sealed class TeamProcessor
@@ -44,6 +46,11 @@ public sealed class TeamProcessor
     {
         var paginatedList = await _teamRepository.GetPageAsync(query);
         return TeamPageDto.ToPageDto(paginatedList);
+    }
+
+    public async Task<List<Lookup>> GetLookup()
+    {
+        return await _teamRepository.GetLookup();
     }
 
     public async Task DeleteAsync(int id)

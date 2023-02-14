@@ -49,19 +49,24 @@ public class PlayerCommand
     public int UserId { get; set; }
 
     [DisplayName("Team")]
+    [Required]
     public int? TeamId { get; set; }
 
     [DisplayName("Jersey Name")]
     public string? JerseyName { get; set; }
 
     [DisplayName("Jersey Number")]
+    [Required]
     public int? JerseyNumber { get; set; }
 
     [DisplayName("Primary Position")]
+    [Required]
     public Position PrimaryPosition { get; set; }
 
     [DisplayName("Secondary Position")]
     public Position? SecondaryPosition { get; set; }
+
+    [Required]
     public Nationality Nationality { get; set; }
     public UserCommand User { get; set; } = new();
 

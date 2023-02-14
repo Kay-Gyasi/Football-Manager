@@ -1,15 +1,19 @@
-﻿<div class="card w-100">
+﻿@model UserCommandModel
+
+<div class="card w-100">
     <img src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-972635212.jpg"
     class="card-img-top" alt="GOAT">
     <div class="card-body">
         <h5 class="card-title">
-            <b>@User.FindFirst(JwtRegisteredClaimNames.GivenName)?.Value 
-                @User.FindFirst(JwtRegisteredClaimNames.FamilyName)?.Value</b></h5>
-        <p class="card-text">Football @User.FindFirst("role")?.Value</p>
+            <b>@Model.Player?.User.FirstName 
+                @Model.Player?.User.LastName
+            </b>
+        </h5>
+        <p class="card-text">Player of @Model.Player?.TeamId</p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">Phone: <i>@User.FindFirst(ClaimTypes.MobilePhone)?.Value</i></li>
-        <li class="list-group-item">Email: <i>@User.FindFirst(JwtRegisteredClaimNames.Email)?.Value</i></li>
+        <li class="list-group-item">Phone: <i>@Model.Player?.User.PhoneNumber</i></li>
+        <li class="list-group-item">Email: <i>@Model.Player?.User.Email</i></li>
     </ul>
 </div>
 

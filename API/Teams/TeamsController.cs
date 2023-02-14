@@ -36,6 +36,15 @@ public class TeamsController : Controller
         var dto = await _processor.GetAsync(id);
         return dto is null ? NoContent() : Ok(dto);
     }
+    
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetLookup()
+    {
+        var dto = await _processor.GetLookup();
+        return Ok(dto);
+    }
 
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

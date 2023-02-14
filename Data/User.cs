@@ -44,6 +44,12 @@ public sealed class User : IdentityUser<int>
         LastName = lastname;
         return this;
     }
+    
+    public User HasUserName(string username)
+    {
+        UserName = username;
+        return this;
+    }
 
     public User WithEmail(string? email)
     {
