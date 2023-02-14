@@ -98,6 +98,7 @@ public sealed class InitializationProcessor
 
     private static IEnumerable<PlayerCommand> GetPlayers(int teamId)
     {
+        var rand = new Random();
         var userFaker = new Faker<UserCommand>()
             .RuleFor(x => x.FirstName, f => f.Name.FirstName())
             .RuleFor(x => x.LastName, f => f.Name.LastName())
@@ -110,6 +111,7 @@ public sealed class InitializationProcessor
             .Ignore(x => x.JerseyName)
             .RuleFor(x => x.TeamId, _ => teamId)
             .RuleFor(x => x.User, () => userFaker)
+            .RuleFor(x => x.PrimaryPosition, f => Enum.GetValues(typeof(Position)).GetValue(rand.Next(4)))
             .RuleFor(x => x.JerseyNumber, f => f.Random.Number(1, 26))
             .Generate(26);
     }

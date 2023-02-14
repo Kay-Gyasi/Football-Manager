@@ -1,4 +1,7 @@
-﻿namespace Football_Manager.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
+
+namespace Football_Manager.Models;
 
 public class SigninRequest
 {
@@ -11,11 +14,35 @@ public class SigninRequest
 
 public class UserCommand
 {
+    [DisplayName("User Name")]
     public string? UserName { get; set; }
+
+    [DisplayName("Email Address")]
     public string? Email { get; set; }
+
+    [DisplayName("Phone Number")]
     public string? PhoneNumber { get; set; }
+
+    [DisplayName("First Name")]
     public string FirstName { get; set; }
+
+    [DisplayName("Date of Birth")]
     public DateTime? DateOfBirth { get; set; }
+
+    [DisplayName("Last Name")]
     public string LastName { get; set; }
     public string? Password { get; set; }
+
+    public static explicit operator UserCommand(UserDto dto)
+    {
+        return new UserCommand()
+        {
+            UserName = dto.UserName,
+            Email = dto.Email,
+            PhoneNumber = dto.PhoneNumber,
+            FirstName = dto.FirstName,
+            DateOfBirth = dto.DateOfBirth,
+            LastName = dto.LastName
+        };
+    }
 }

@@ -1,4 +1,6 @@
-﻿namespace Football_Manager.Models;
+﻿using System.ComponentModel;
+
+namespace Football_Manager.Models;
 
 public class PlayerDto
 {
@@ -41,35 +43,49 @@ public enum UserType
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 public class PlayerCommand
 {
     public int? Id { get; set; }
     public int UserId { get; set; }
+
+    [DisplayName("Team")]
     public int? TeamId { get; set; }
+
+    [DisplayName("Jersey Name")]
     public string? JerseyName { get; set; }
+
+    [DisplayName("Jersey Number")]
     public int? JerseyNumber { get; set; }
+
+    [DisplayName("Primary Position")]
     public Position PrimaryPosition { get; set; }
+
+    [DisplayName("Secondary Position")]
     public Position? SecondaryPosition { get; set; }
     public Nationality Nationality { get; set; }
-    public UserCommand User { get; set; } = new UserCommand();
+    public UserCommand User { get; set; } = new();
+
+    public static explicit operator PlayerCommand(PlayerDto? dto)
+    {
+        if (dto is null) return null!;
+        return new PlayerCommand()
+        {
+            Id = dto.Id,
+            UserId = dto.UserId,
+            TeamId = dto.TeamId,
+            JerseyName = dto.JerseyName,
+            JerseyNumber = dto.JerseyNumber,
+            PrimaryPosition = dto.PrimaryPosition,
+            SecondaryPosition = dto.SecondaryPosition,
+            Nationality = dto.Nationality,
+            User = (UserCommand) dto.User!
+        };
+    }
 }
 
 public enum Position
 {
-    GoalKeeper = 1,
+    Goalkeeper = 1,
     Defender,
     Midfielder,
     Forward

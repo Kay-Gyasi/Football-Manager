@@ -27,6 +27,7 @@
                 </ul>
                 <div class="d-flex">
                     <span class="me-2">Hi, @User.FindFirst(JwtRegisteredClaimNames.GivenName)?.Value</span>
+                    <a class="btn me-2" asp-controller="Account" asp-action="Logout">Logout</a>
                 </div>
             </div>
         </div>

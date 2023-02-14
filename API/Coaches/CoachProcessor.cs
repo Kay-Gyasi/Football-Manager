@@ -66,15 +66,13 @@ public class CoachProcessor
                 .WithPhone(command.User?.PhoneNumber)
                 .WasBornOn(command.User?.DateOfBirth);
             
-            var result = await _userManager.CreateAsync(user);
+            var result = await _userManager.CreateAsync(user, command.User?.Password ?? "");
             if (result.Errors.Any())
             {
                 _logger.LogError("{Errors}", result.Errors.ToString());
                 return new InvalidDataException("Error while creating user");
             }
 
-            var password = _userManager.PasswordHasher.HashPassword(user, command.User?.Password ?? "");
-            await _userManager.AddPasswordAsync(user, password);
             await _userManager.AddToRoleAsync(user, UserType.Coach.ToString());
             
             var coach = Coach.Create(user.Id);

@@ -1,0 +1,185 @@
+﻿@model UserCommandModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+    TempData["PlayerId"] = Model.Player!.Id.ToString();
+}
+
+<partial name="_LayoutHeader" />
+
+<div class="container mt-3 mb-5">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-10 mt-0 m-auto col-lg-4">
+                    <partial name="_ProfileSideView" />
+                </div>
+                <div class="col-8">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" asp-controller="Home"
+                               asp-action="Index">View Info</a>
+                        </li>
+                        @if (User.FindFirst("role")?.Value == "Player")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-controller="Home"
+                                   asp-action="EditPlayer">Edit Info</a>
+                            </li>
+                        }
+                        else if(User.FindFirst("role")?.Value == "Coach")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home"
+                                   asp-action="EditCoach">Edit Info</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <form method="post" asp-controller="Home" asp-action="SaveProfileChanges">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="card-title"><strong>Personal</strong></div>
+                                    <div class="row g-3">
+                                        <div class="col d-none">
+                                            <label asp-for="Player!.Id"></label>
+                                            <input asp-for="Player!.Id" placeholder="" class="form-control" />
+                                            <span asp-validation-for="Player!.Id" class="text-danger"></span>
+                                        </div>
+                                        <div class="col d-none">
+                                            <label asp-for="Player!.UserId"></label>
+                                            <input asp-for="Player!.UserId" placeholder="" class="form-control" />
+                                            <span asp-validation-for="Player!.UserId" class="text-danger"></span>
+                                        </div>
+                                        <div class="col">
+                                            <label asp-for="Player!.User.FirstName"></label>
+                                            <input asp-for="Player!.User.FirstName" placeholder="First name" class="form-control" />
+                                            <span asp-validation-for="Player!.User.FirstName" class="text-danger"></span>
+                                        </div>
+                                        <div class="col">
+                                            <label asp-for="Player!.User.LastName"></label>
+                                            <input asp-for="Player!.User.LastName" placeholder="Last name" class="form-control" />
+                                            <span asp-validation-for="Player!.User.LastName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="row g-3 mt-3">
+                                        <div class="col">
+                                            <label asp-for="Player!.User.UserName"></label>
+                                            <input asp-for="Player!.User.UserName" placeholder="User name" class="form-control" />
+                                            <span asp-validation-for="Player!.User.UserName" class="text-danger"></span>
+                                        </div>
+                                        <div class="col">
+                                            <label asp-for="Player!.User.PhoneNumber"></label>
+                                            <input asp-for="Player!.User.PhoneNumber" placeholder="Phone" class="form-control" />
+                                            <span asp-validation-for="Player!.User.PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="row g-3 mt-3">
+                                        <div class="col">
+                                            <label asp-for="Player!.User.Email"></label>
+                                            <input asp-for="Player!.User.Email" placeholder="Email" class="form-control" />
+                                            <span asp-validation-for="Player!.User.Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="col">
+                                            <label asp-for="Player!.User.DateOfBirth"></label>
+                                            <input asp-for="Player!.User.DateOfBirth" type="date" placeholder="Date of birth" class="form-control" />
+                                            <span asp-validation-for="Player!.User.DateOfBirth" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="card-title"><strong>Professional</strong></div>
+                                    <div class="row g-3">
+                                        <div class="col">
+                                            <label asp-for="Player!.TeamId"></label>
+                                            <input asp-for="Player!.TeamId" placeholder="" class="form-control" />
+                                            <span asp-validation-for="Player!.TeamId" class="text-danger"></span>
+                                        </div>
+                                        <div class="col">
+                                            <label asp-for="Player!.JerseyName"></label>
+                                            <input asp-for="Player!.JerseyName" placeholder="Jersey name" class="form-control" />
+                                            <span asp-validation-for="Player!.JerseyName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="row g-3 mt-3">
+                                        <div class="col">
+                                            <label asp-for="Player!.PrimaryPosition"></label>
+                                            <select asp-for="Player!.PrimaryPosition" placeholder="" class="form-select">
+                                                @foreach(var p in Enum.GetValues(typeof(Position)))
+                                                {
+                                                    var key = (int)p;
+                                                    if(Enum.GetName(typeof(Position), p) == Model.Player!.PrimaryPosition.ToString())
+                                                    {
+                                                        <option value="@key" selected>@p</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@key">@p</option>
+                                                    }                                                
+                                                }
+                                            </select>
+                                            <span asp-validation-for="Player!.PrimaryPosition" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col">
+                                            <label asp-for="Player!.SecondaryPosition"></label>
+                                            <select asp-for="Player!.SecondaryPosition" placeholder="" class="form-select">
+                                                @foreach (var p in Enum.GetValues(typeof(Position)))
+                                                {
+                                                    var key = (int)p;
+                                                    if (Enum.GetName(typeof(Position), p) == Model.Player!.SecondaryPosition.ToString())
+                                                    {
+                                                        <option value="@key" selected>@p</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@key">@p</option>
+                                                    }
+                                                }
+                                                @if(Model.Player!.SecondaryPosition is null)
+                                                {
+                                                <option value="" selected></option>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="Player!.SecondaryPosition" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="row g-3 mt-3">
+                                        <div class="col">
+                                            <label asp-for="Player!.Nationality"></label>
+                                            <input asp-for="Player!.Nationality" placeholder="" class="form-control" />
+                                            <span asp-validation-for="Player!.Nationality" class="text-danger"></span>
+                                        </div>
+                                        <div class="col">
+                                            <label asp-for="Player!.JerseyNumber"></label>
+                                            <input asp-for="Player!.JerseyNumber" placeholder="" class="form-control" />
+                                            <span asp-validation-for="Player!.JerseyNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 mt-3">
+                            <input type="submit" class="btn btn-primary w-100" value="Save Changes" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_LayoutFooter" />
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
