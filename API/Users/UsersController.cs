@@ -1,4 +1,6 @@
-﻿namespace Football_Manager.Users;
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Football_Manager.Users;
 
 public class UsersController : Controller
 {
@@ -18,6 +20,7 @@ public class UsersController : Controller
         return result.IsT0 ? Ok(result.AsT0) : BuildProblemDetails(result.AsT1);
     }
     
+    [Authorize("AdminOnly")]
     [HttpPost("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

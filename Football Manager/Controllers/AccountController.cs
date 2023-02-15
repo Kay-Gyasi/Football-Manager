@@ -38,6 +38,7 @@ public class AccountController : Controller
         }
 
         var claims = jwt.Claims;
+        claims = claims.Append(new Claim("access_token", response?.Token ?? ""));
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 

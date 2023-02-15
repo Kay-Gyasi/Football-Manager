@@ -1,5 +1,6 @@
 ﻿namespace Football_Manager.Coaches;
 
+[Authorize("Coach")]
 public class CoachesController : Controller
 {
     private readonly CoachProcessor _processor;
@@ -9,10 +10,22 @@ public class CoachesController : Controller
         _processor = processor;
     }
 
+    [Authorize("AdminOnly")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Save(CoachCommand command)
+    {
+        var result = await _processor.UpsertAsync(command);
+        if (result.IsT1) return BuildProblemDetails(command.Id);
+        return result.IsT2 ? BuildProblemDetails(result.AsT2) 
+            : CreatedAtAction(nameof(Get), new { id = result.AsT0 }, result.Value);
+    }
+    
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Update(CoachCommand command)
     {
         var result = await _processor.UpsertAsync(command);
         if (result.IsT1) return BuildProblemDetails(command.Id);
@@ -47,7 +60,8 @@ public class CoachesController : Controller
         var dto = await _processor.GetByType(id);
         return dto is null ? NoContent() : Ok(dto);
     }
-
+    
+    [Authorize("AdminOnly")]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

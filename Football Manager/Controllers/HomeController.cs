@@ -1,4 +1,5 @@
-﻿using Football_Manager.Authorization;
+﻿using System.Net.Http.Headers;
+using Football_Manager.Authorization;
 using Microsoft.AspNetCore.Authentication;
 
 namespace Football_Manager.Controllers;
@@ -19,7 +20,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        using var client = _factory.CreateClient("default");
+        using var client = GetClient();
         HttpResponseMessage request;
         if (Roles!.Any(x => x.Value == "Coach"))
         {
@@ -41,7 +42,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> EditPlayer()
     {
-        using var client = _factory.CreateClient("default");
+        using var client = GetClient();
         var requestTask = client.GetAsync($"players/getByType/{UserId}");
         var teamsRequestTask = client.GetAsync("Teams/GetLookup");
 
@@ -68,7 +69,7 @@ public class HomeController : Controller
     [AdminAuthorize]
     public async Task<IActionResult> CreatePlayer()
     {
-        using var client = _factory.CreateClient("default");
+        using var client = GetClient();
         var request = await client.GetAsync("Teams/GetLookup");
         
         if (!request.IsSuccessStatusCode) return View();
@@ -84,7 +85,7 @@ public class HomeController : Controller
     
     public async Task<IActionResult> SaveProfileChanges(UserCommandModel command)
     {
-        using var client = _factory.CreateClient("default");
+        using var client = GetClient();
         HttpResponseMessage response;
         if(Roles!.Any(x => x.Value == "Player"))
         {
@@ -93,6 +94,22 @@ public class HomeController : Controller
         else
         {
             response = await client.PostAsJsonAsync("coaches/save", command.Coach);
+        }
+
+        return RedirectToAction(response.IsSuccessStatusCode ? "Index" : "EditPlayer");
+    }
+    
+    public async Task<IActionResult> UpdateProfileChanges(UserCommandModel command)
+    {
+        using var client = GetClient();
+        HttpResponseMessage response;
+        if(Roles!.Any(x => x.Value == "Player"))
+        {
+            response = await client.PostAsJsonAsync("players/update", command.Player);
+        }
+        else
+        {
+            response = await client.PostAsJsonAsync("coaches/update", command.Coach);
         }
 
         return RedirectToAction(response.IsSuccessStatusCode ? "Index" : "EditPlayer");
@@ -107,5 +124,13 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+    }
+
+    private HttpClient GetClient()
+    {
+        var client = _factory.CreateClient("default");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            User.FindFirst("access_token")?.Value.Replace("Bearer ", ""));
+        return client;
     }
 }

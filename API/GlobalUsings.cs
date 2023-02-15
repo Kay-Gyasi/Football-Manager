@@ -1,4 +1,5 @@
-﻿global using Data;
+﻿global using Microsoft.AspNetCore.Authorization;
+global using Data;
 global using Data.Exceptions;
 global using Data.Helpers;
 global using Football_Manager;

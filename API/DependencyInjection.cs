@@ -17,7 +17,8 @@ public static class DependencyInjection
         services.AddSwaggerGen();
         services.AddPersistence(configuration)
             .RegisterProcessors()
-            .AddAuthenticationService(configuration);
+            .AddAuthenticationService(configuration)
+            .AddAuthorizationPolicies();
         return services;
     }
 
