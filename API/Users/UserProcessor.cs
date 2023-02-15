@@ -21,7 +21,20 @@ public class UserProcessor
             return new InvalidLoginException();
         }
 
-        return _tokenService.GenerateToken(user);
+        return await _tokenService.GenerateToken(user);
+    }
+
+    public async Task<bool> MakeAdmin(int id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user is null) return false;
+        
+        var isAdmin = await _userManager.IsInRoleAsync(user, "admin");
+        if (!isAdmin)
+        {
+            await _userManager.AddToRoleAsync(user, "admin");
+        }
+        return true;
     }
 }
 

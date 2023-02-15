@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Football_Manager.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Football_Manager.Controllers;
 
@@ -8,7 +9,7 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IHttpClientFactory _factory;
     private string UserId => User?.FindFirst(JwtRegisteredClaimNames.NameId)?.Value ?? "";
-    private string Role => User?.FindFirst("role")?.Value ?? "";
+    private IEnumerable<Claim>? Roles => User?.FindAll("role");
 
     public HomeController(ILogger<HomeController> logger, IHttpClientFactory factory)
     {
@@ -20,7 +21,7 @@ public class HomeController : Controller
     {
         using var client = _factory.CreateClient("default");
         HttpResponseMessage request;
-        if (Role == "Coach")
+        if (Roles!.Any(x => x.Value == "Coach"))
         {
             request = await client
                 .GetAsync($"coaches/getByType/{UserId}");
@@ -60,7 +61,11 @@ public class HomeController : Controller
             Teams = await teamsRequest.Content.ReadFromJsonAsync<List<Lookup>>()
         });
     }
-    
+
+    // TODO:: Authorize API endpoints (try to use custom attributes)
+    // TODO:: Implement Team tab that shows team info (manager,
+    // TODO:: teammates page - should be able to delete teammate if admin)
+    [AdminAuthorize]
     public async Task<IActionResult> CreatePlayer()
     {
         using var client = _factory.CreateClient("default");
@@ -77,12 +82,11 @@ public class HomeController : Controller
         });
     }
     
-    // TODO:: Create admin role and authorizations
     public async Task<IActionResult> SaveProfileChanges(UserCommandModel command)
     {
         using var client = _factory.CreateClient("default");
         HttpResponseMessage response;
-        if(Role == "Player")
+        if(Roles!.Any(x => x.Value == "Player"))
         {
             response = await client.PostAsJsonAsync("players/save", command.Player);
         }

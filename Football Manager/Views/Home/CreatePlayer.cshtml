@@ -20,12 +20,16 @@
                             <a class="nav-link" aria-current="page" asp-controller="Home"
                                asp-action="Index">View Info</a>
                         </li>
-                        @if (User.FindFirst("role")?.Value == "Player")
+                        @if (User.FindAll("role").Any(x => x.Value == "Player"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Home"
                                    asp-action="EditPlayer">Edit Info</a>
                             </li>
+                        }
+                        @if (User.FindAll("role").Any(x => x.Value == "admin"))
+                        {
+
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" asp-controller="Home"
                                    asp-action="CreatePlayer">Add Player</a>
