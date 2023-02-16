@@ -1,8 +1,10 @@
-﻿GET {{BaseUrl}}/Players/Get/2
+﻿GET {{BaseUrl}}/Players/Get/3
+Authorization: {{Token}}
 
 ###
 POST {{BaseUrl}}/Players/GetPage
 Content-Type: application/json
+Authorization: {{Token}}
 
 {
   "pageNumber": 1,
@@ -11,10 +13,12 @@ Content-Type: application/json
 
 ###
 DELETE {{BaseUrl}}/Players/Delete/3
+Authorization: {{Token}}
 
 ###
 POST {{BaseUrl}}/Players/Save
 Content-Type: application/json
+Authorization: {{Token}}
 
 {
   "id": 0,

@@ -56,8 +56,8 @@ public sealed class TeamProcessor
     {
         var userType = (await _userManager.FindByIdAsync(userId))?.Type;
         var id = userType == UserType.Coach ? 
-            (await _coachRepository.FindByIdAsync(Convert.ToInt32(userId)))?.TeamId 
-            : (await _playerRepository.FindByIdAsync(Convert.ToInt32(userId)))?.TeamId;
+            (await _coachRepository.GetByTypeId(Convert.ToInt32(userId)))?.TeamId 
+            : (await _playerRepository.GetByTypeId(Convert.ToInt32(userId)))?.TeamId;
         return (CoachDto) await _teamRepository.GetCoachAsync(id ?? 0);
     }
     

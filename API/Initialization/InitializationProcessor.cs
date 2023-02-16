@@ -23,6 +23,7 @@ public sealed class InitializationProcessor
         _teamProcessor = teamProcessor;
         _coachProcessor = coachProcessor;
         _roleManager = roleManager;
+        Randomizer.Seed = new Random(1340);
         GetTeams();
     }
 
@@ -70,6 +71,24 @@ public sealed class InitializationProcessor
                 await _playerProcessor.UpsertAsync(player).ConfigureAwait(false);
             }
         }
+
+        await _playerProcessor.UpsertAsync(new PlayerCommand
+        {
+            JerseyName = "admin",
+            Nationality = Nationality.Ghanaian,
+            PrimaryPosition = Position.Midfielder,
+            TeamId = 4,
+            User = new UserCommand
+            {
+                DateOfBirth = new DateTime(1999, 04, 19),
+                Email = "kofigyasi715@yahoo.com",
+                FirstName = "Kofi",
+                LastName = "Gyasi",
+                PhoneNumber = "0557833216",
+                Password = "IamMrAdmin@4356_yet",
+                UserName = "KayGyasi"
+            }
+        });
     }
     
     private async Task SeedCoaches()

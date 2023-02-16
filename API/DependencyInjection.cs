@@ -13,12 +13,11 @@ public static class DependencyInjection
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
         services.AddEndpointsApiExplorer();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        services.AddSwaggerGen();
         services.AddPersistence(configuration)
             .RegisterProcessors()
             .AddAuthenticationService(configuration)
-            .AddAuthorizationPolicies();
+            .AddAuthorizationPolicies()
+            .AddSwaggerConfig();
         return services;
     }
 

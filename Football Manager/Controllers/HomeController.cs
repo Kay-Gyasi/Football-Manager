@@ -119,7 +119,7 @@ public class HomeController : Controller
 
         if (!coachRequest.IsSuccessStatusCode || !playersRequest.IsSuccessStatusCode)
             return View();
-        
+
         return View(new TeamModel()
         {
             Coach = await coachRequest.Content.ReadFromJsonAsync<CoachDto>(),

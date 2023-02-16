@@ -30,6 +30,12 @@ public class Player : Entity<int>
         UserId = userId;
         return this;
     }
+    
+    public Player PlaysForTeamWithId(int? teamId)
+    {
+        TeamId = teamId;
+        return this;
+    }
 
     public Player HasJerseyName(string? name)
     {
