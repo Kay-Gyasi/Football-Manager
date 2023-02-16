@@ -42,6 +42,12 @@
                                    asp-action="EditPlayer">Edit Info</a>
                             </li>
                         }
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" asp-controller="Home"
+                               asp-action="Team">Team Info</a>
+                        </li>        
+                        
                         @if (User.FindAll("role").Any(x => x.Value == "admin"))
                         {
 
@@ -52,7 +58,7 @@
                         }
                     </ul>
 
-                    <form method="post" asp-controller="Home" asp-action="UpdateProfileChanges">
+                    <form method="post" asp-controller="Home" asp-action="SaveProfileChanges">
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="card-title"><strong>Personal</strong></div>

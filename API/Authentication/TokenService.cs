@@ -45,7 +45,7 @@ public class TokenService : ITokenService
         identity.AddClaims(new []
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.UserName ?? ""),
-            new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+            new Claim("userid", user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
             new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
             new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),

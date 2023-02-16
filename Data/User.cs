@@ -47,6 +47,7 @@ public sealed class User : IdentityUser<int>
     
     public User HasUserName(string username)
     {
+        if (string.IsNullOrEmpty(username)) return this;
         UserName = username;
         return this;
     }

@@ -1,15 +1,11 @@
-﻿using System.Net.Http.Headers;
-using Football_Manager.Authorization;
-using Microsoft.AspNetCore.Authentication;
-
-namespace Football_Manager.Controllers;
+﻿namespace Football_Manager.Controllers;
 
 [Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IHttpClientFactory _factory;
-    private string UserId => User?.FindFirst(JwtRegisteredClaimNames.NameId)?.Value ?? "";
+    private string UserId => User?.FindFirst("userid")?.Value ?? "";
     private IEnumerable<Claim>? Roles => User?.FindAll("role");
 
     public HomeController(ILogger<HomeController> logger, IHttpClientFactory factory)
@@ -63,9 +59,6 @@ public class HomeController : Controller
         });
     }
 
-    // TODO:: Authorize API endpoints (try to use custom attributes)
-    // TODO:: Implement Team tab that shows team info (manager,
-    // TODO:: teammates page - should be able to delete teammate if admin)
     [AdminAuthorize]
     public async Task<IActionResult> CreatePlayer()
     {
@@ -89,32 +82,51 @@ public class HomeController : Controller
         HttpResponseMessage response;
         if(Roles!.Any(x => x.Value == "Player"))
         {
-            response = await client.PostAsJsonAsync("players/save", command.Player);
+            if (command.Player?.Id is not null or 0)
+            {
+                response = await client.PostAsJsonAsync("players/update", command.Player);   
+            }
+            else
+            {
+                response = await client.PostAsJsonAsync("players/save", command.Player);
+            }
         }
         else
         {
-            response = await client.PostAsJsonAsync("coaches/save", command.Coach);
+            if (command.Coach?.Id is not null or 0)
+            {
+                response = await client.PostAsJsonAsync("coaches/update", command.Coach);   
+            }
+            else
+            {
+                response = await client.PostAsJsonAsync("coaches/save", command.Coach);
+            }
         }
 
         return RedirectToAction(response.IsSuccessStatusCode ? "Index" : "EditPlayer");
     }
-    
-    public async Task<IActionResult> UpdateProfileChanges(UserCommandModel command)
+
+    public async Task<IActionResult> Team()
     {
         using var client = GetClient();
-        HttpResponseMessage response;
-        if(Roles!.Any(x => x.Value == "Player"))
-        {
-            response = await client.PostAsJsonAsync("players/update", command.Player);
-        }
-        else
-        {
-            response = await client.PostAsJsonAsync("coaches/update", command.Coach);
-        }
+        var coachTask = client.GetAsync("Teams/GetCoach");
+        var playersTask = client.PostAsJsonAsync("Teams/GetPlayersPage", PaginatedQuery.Build());
 
-        return RedirectToAction(response.IsSuccessStatusCode ? "Index" : "EditPlayer");
+        await Task.WhenAll(coachTask, playersTask);
+
+        var coachRequest = await coachTask;
+        var playersRequest = await playersTask;
+
+        if (!coachRequest.IsSuccessStatusCode || !playersRequest.IsSuccessStatusCode)
+            return View();
+        
+        return View(new TeamModel()
+        {
+            Coach = await coachRequest.Content.ReadFromJsonAsync<CoachDto>(),
+            Players = await playersRequest.Content.ReadFromJsonAsync<PaginatedList<PlayerPageDto>>()
+        });
     }
-    
+
     public IActionResult Privacy()
     {
         return View();

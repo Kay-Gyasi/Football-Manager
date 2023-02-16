@@ -6,17 +6,17 @@ namespace Data.Base;
 
 public class Repository<T, TKey> : IRepository<T, TKey> where T : Entity<TKey>
 {
-    private readonly AppDbContext _context;
+    protected readonly AppDbContext Context;
     private readonly ILogger<Repository<T, TKey>> _logger;
     private DbSet<T>? _dbSet;  
     protected Repository(AppDbContext context, ILogger<Repository<T, TKey>> logger) 
     {  
-        _context = context;
+        Context = context;
         _logger = logger;
     }
 
     protected virtual DbSet<T> Entities 
-        => _dbSet ??= _context.Set<T>();
+        => _dbSet ??= Context.Set<T>();
 
     protected virtual IQueryable<T> GetBaseQuery() 
         => Entities;
@@ -27,7 +27,7 @@ public class Repository<T, TKey> : IRepository<T, TKey> where T : Entity<TKey>
         {
             await Entities.AddAsync(entity);
             if (saveChanges)
-                await _context.SaveChangesAsync();
+                await Context.SaveChangesAsync();
         }
         catch (Exception e)
         {
@@ -41,7 +41,7 @@ public class Repository<T, TKey> : IRepository<T, TKey> where T : Entity<TKey>
         try
         {
             await Task.Run(() => Entities.Update(entity));
-            if (saveChanges) await _context.SaveChangesAsync();
+            if (saveChanges) await Context.SaveChangesAsync();
         }
         catch (Exception e)
         {
@@ -55,7 +55,7 @@ public class Repository<T, TKey> : IRepository<T, TKey> where T : Entity<TKey>
         try
         {
             await Task.Run(() => Entities.Remove(entity));
-            if (saveChanges) await _context.SaveChangesAsync();
+            if (saveChanges) await Context.SaveChangesAsync();
         }
         catch (Exception e)
         {
@@ -69,7 +69,7 @@ public class Repository<T, TKey> : IRepository<T, TKey> where T : Entity<TKey>
         try
         {
             await Task.Run(()=> entity.Audit?.Delete());
-            if (saveChanges) await _context.SaveChangesAsync();
+            if (saveChanges) await Context.SaveChangesAsync();
         }
         catch (Exception e)
         {
@@ -83,7 +83,7 @@ public class Repository<T, TKey> : IRepository<T, TKey> where T : Entity<TKey>
         try
         {
             if (id <= 0) throw new InvalidIdException($"{id} cannot be empty!");
-            var keyProperty = _context.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties[0];
+            var keyProperty = Context.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties[0];
             return await GetBaseQuery().FirstOrDefaultAsync(e => EF.Property<int>
                 (e, keyProperty!.Name) == id);
         }
@@ -102,12 +102,12 @@ public class Repository<T, TKey> : IRepository<T, TKey> where T : Entity<TKey>
 
     public async Task<bool> SaveChangesAsync()
     {
-        return await _context.SaveChangesAsync() > 0;
+        return await Context.SaveChangesAsync() > 0;
     }
 
     public async Task<IDbContextTransaction> BeginTransaction()
     {
-        return await _context.Database.BeginTransactionAsync();
+        return await Context.Database.BeginTransactionAsync();
     }
 }
 

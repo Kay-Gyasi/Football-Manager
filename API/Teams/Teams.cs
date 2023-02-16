@@ -1,4 +1,7 @@
-﻿namespace Football_Manager.Teams;
+﻿using Football_Manager.Coaches;
+using Football_Manager.Players;
+
+namespace Football_Manager.Teams;
 
 public class TeamCommand
 {
@@ -14,7 +17,6 @@ public class TeamDto
     public string Name { get; set; }
     public DateTime EstablishmentDate { get; set; }
     public string? StadiumName { get; set; }
-
     public static explicit operator TeamDto(Team? team)
     {
         if (team is null) return null;

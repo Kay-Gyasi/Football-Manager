@@ -7,3 +7,5 @@ global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authentication.Cookies;
+global using System.Net.Http.Headers;
+global using Football_Manager.Authorization;

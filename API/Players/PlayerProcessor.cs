@@ -75,7 +75,8 @@ public sealed class PlayerProcessor
             var user = User.Create(UserType.Player, command.User?.FirstName ?? "", command.User?.LastName ?? "")
                 .WithEmail(command.User?.Email)
                 .WithPhone(command.User?.PhoneNumber)
-                .WasBornOn(command.User?.DateOfBirth);
+                .WasBornOn(command.User?.DateOfBirth)
+                .HasUserName(command.User?.UserName ?? "");
             
             var result = await _userManager.CreateAsync(user, command.User?.Password ?? "Kaygyasi534$trey");
             if (result.Errors.Any())
